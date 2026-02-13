@@ -1,18 +1,26 @@
+* {
+    font-family: 'Press Start 2P', cursive;
+}
+
 body {
     display: flex;
     align-items: center;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .list {
     background-color: greenyellow;
     position: absolute;
-    top: 0;
-    min-height: 100%;
+    top: 16vh;
+    bottom: 16vh;
     width: 25%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
+    border: 4px solid black;
+    box-shadow: 0 0 0 4px black;
 }
 
 #kog_bottom {
@@ -31,4 +39,14 @@ body {
     height: 10%;
     top: 0;
     left: 10%;
+}
+
+.player {
+    border-bottom: 2px solid black;
+    padding: 10px;
+}
+
+.dead {
+    color: red;
+    opacity: 0.6;
 }
