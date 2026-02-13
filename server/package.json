@@ -4,7 +4,7 @@
     "description": "Server for Kogane, a multiplayer game.",
     "main": "server.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "node server.js"
     },
     "author": "JJ Adamoski",
     "dependencies": {
