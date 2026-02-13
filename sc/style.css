@@ -33,11 +33,9 @@ body {
     left: 8%;
 }
 
-.list h1 {
-    border-bottom: 2px solid black;
+.heading h1 {
     padding-bottom: 10px;
     width: 100%;
-    text-align: center;
 }
 
 #kog_bottom {
@@ -88,8 +86,6 @@ body {
 
 @media (max-width: 768px) {
     .list {
-        width: 100%;
-        left: 0;
-        right: 0;
+        width: 100% !important;
     }
 }
