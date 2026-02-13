@@ -1,0 +1,13 @@
+{
+    "name": "kogane-server",
+    "version": "1.0.0",
+    "description": "Server for Kogane, a multiplayer game.",
+    "main": "server.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "JJ Adamoski",
+    "dependencies": {
+        
+    }
+}
