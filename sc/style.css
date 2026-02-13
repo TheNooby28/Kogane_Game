@@ -7,6 +7,7 @@ body {
     align-items: center;
     flex-direction: column;
     overflow: hidden;
+    margin: 0;
 }
 
 .list {
@@ -19,8 +20,24 @@ body {
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
+    overflow-x: hidden;
     border: 4px solid black;
     box-shadow: 0 0 0 4px black;
+}
+
+.kog_logo {
+    position: absolute;
+    top: 1%;
+    width: 50px;
+    height: 50px;
+    left: 8%;
+}
+
+.list h1 {
+    border-bottom: 2px solid black;
+    padding-bottom: 10px;
+    width: 100%;
+    text-align: center;
 }
 
 #kog_bottom {
@@ -41,12 +58,38 @@ body {
     left: 10%;
 }
 
+#plrs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .player {
     border-bottom: 2px solid black;
+    border-top: 2px solid black;
     padding: 10px;
+    width: 100%;
+    display: flex;
+    width: 100%;
+    padding-left: 50px;
+    margin-bottom: 20px;
 }
 
 .dead {
     color: red;
     opacity: 0.6;
+}
+
+.status_img {
+    height: 50px;
+    padding-right: 20px;
+}
+
+@media (max-width: 768px) {
+    .list {
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
 }

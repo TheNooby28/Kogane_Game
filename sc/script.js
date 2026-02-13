@@ -6,7 +6,7 @@ async function getPlayers() {
     try {
         const res = await fetch(`${backend_link}/players`);
         const data = await res.json();
-
+        console.log(data);
         const container = players;
         container.innerHTML = '';
 
@@ -15,7 +15,8 @@ async function getPlayers() {
             player_div.classList.add('player');
 
             player_div.innerHTML = `
-                <p>${player.name}</p>
+                <img src="${player.status ? 'assets/Alive.png' : 'assets/Dead.png'}" alt='Status' class='status_img' />
+                <p>${player.Fname} ${player.Lname}</p>
                 <p>${player.points}</p>
             `;
 
