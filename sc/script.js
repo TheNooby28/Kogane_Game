@@ -16,8 +16,15 @@ async function getPlayers() {
 
             player_div.innerHTML = `
                 <img src="${player.status ? 'assets/Alive.png' : 'assets/Dead.png'}" alt='Status' class='status_img' />
-                <p>${player.Fname} ${player.Lname}</p>
-                <p>${player.points}</p>
+                <div class="top-row">
+                    <span>${player.Fname}</span>
+                    <span>Points: ${player.points} pts</span>
+                    <span>Rules: ${player.rules.count}</span>
+                </div>
+                <div class="bottom-row">
+                    <span>${player.Lname}</span>
+                    <span>City: ${player.city}</span>
+                </div>
             `;
 
             player_div.style.cursor = "pointer";

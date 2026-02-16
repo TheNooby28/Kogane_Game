@@ -15,12 +15,15 @@ app.use(express.json());
 app.get('/players', async (req, res) => {
     const { data, error } = await database
         .from('players')
-        .select('*');
+        .select(`
+            *,
+            rules!created_by(count)
+        `);
 
     if (error) {
-        res.status(500).json({ error: error.message });
-        return;
+        return res.status(500).json({ error: error.message });
     }
+
     res.json(data);
 });
 
