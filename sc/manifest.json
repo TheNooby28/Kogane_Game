@@ -1,0 +1,8 @@
+{
+    "name": "Kogane Game",
+    "short_name": "Kogane",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#adff2f",
+    "theme_color": "#000000"
+}

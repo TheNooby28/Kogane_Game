@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="manifest" href="manifest.json">
         <title>Kogane</title>
         <link rel="stylesheet" href="style.css"/>
         <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -8,6 +9,14 @@
     </head>
     <body>
         <!--Work on images later-->
+        <img src="assets/Settings Icon.png" id="setting_btn" />
+        <div id="settings" hidden>
+            <label>
+                <input type="checkbox" id="notifs_toggle" disabled> Notifications
+                <button id="delete_acc">Delete my account!</button>
+            </label>
+        </div>
+        <a id="admin" href="administrator.html">🛠️</a>
         <!--<img src="assets/3.png" id="kog_top"/>-->
         <div class="list">
             <div class="heading">

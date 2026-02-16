@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
 import database from './db.js';
 
 dotenv.config();
@@ -51,6 +54,24 @@ app.post('/players', (req, res) => {
 });
 
 app.patch('/players/:id', (req, res) => {
+
+});
+
+app.post('/admin/login', async (req, res) => {
+    const { password } = req.body;
+
+    const match = await bcrypt.compare(password, process.env.HASH_PASSWORD);
+    if (!match) {
+        return res.status(401).json({ error: 'Invalid password' });
+    }
+
+    const token = jwt.sign(
+        { role: 'admin' },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+    )
+
+    res.json({ token });
 
 });
 

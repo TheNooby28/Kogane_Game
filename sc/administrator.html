@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="manifest" href="manifest.json">
+        <title>Kogane - Admin</title>
+        <link rel="stylesheet" href="admin.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Kogane Game Administrator Panel</h1>
+        <a href="index.html" class="return">Return to game</a>
+        <div id="sign_in">
+            <h2>Sign In</h2>
+            <input type="password" id="password" placeholder="Password"/>
+            <button id="logInBtn">Sign In</button>
+        </div>
+        <div id="admin_panel" hidden>
+            <h2>Welcome, Admin!</h2>
+            <button id="view_players">View Players</button>
+            <button id="manage_rules">Manage Rules</button>
+        </div>
+        <script src="admin.js"></script>
+    </body>
+</html>
