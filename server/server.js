@@ -33,7 +33,8 @@ app.get('/players/:id', async (req, res) => {
         .from('players')
         .select(`
             *,
-            profiles (*)
+            profiles (*),
+            rules (*)
         `)
         .eq('id', id)
         .single();
