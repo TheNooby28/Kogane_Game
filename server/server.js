@@ -19,6 +19,7 @@ app.use(express.json());
 
 app.set('trust proxy', 1);
 
+//------GAME SECTION------
 app.get('/players', async (req, res) => {
     const { data, error } = await database
         .from('players')
@@ -70,6 +71,7 @@ const loginRateLimiter = rateLimit({
     keyGenerator: (req) => req.ip,
 });
 
+//------ADMIN SECTION------
 app.post('/admin/login', loginRateLimiter, async (req, res) => {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     console.log('Received login request from ip: ' + ip);
@@ -91,6 +93,24 @@ app.post('/admin/login', loginRateLimiter, async (req, res) => {
 
 });
 
+app.post('/admin/verify', (req, res) => {
+    const auth = req.headers['authorization'];
+
+    if (!auth) {
+        return res.status(401).json({ error: 'No token provided' });
+    }
+
+    const token = auth.split(' ')[1];
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        res.json({ valid: true, user: decoded });
+    } catch (err) {
+        res.status(401).json({ valid: false, error: 'Invalid token' });
+    }
+});
+
+//Idk
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

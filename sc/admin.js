@@ -7,8 +7,32 @@ function revealAdminPanel() {
     document.getElementById('sign_in').hidden = true;
 }
 
+window.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
+
+    const res = await fetch('https://kogane-game.onrender.com/admin/verify', {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const data = await res.json();
+
+    console.log(data.valid);
+
+    if (res.ok) {
+        revealAdminPanel();
+    } else {
+        localStorage.removeItem('token');
+    }
+});
+
 loginBtn.addEventListener('click', async () => {
     try {
+        confirmMsg.textContent = 'Loading...';
         const password = passwordInput.value;
 
         if (!password) {
