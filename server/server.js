@@ -7,6 +7,8 @@ import jwt from 'jsonwebtoken';
 
 import database from './db.js';
 
+import rateLimit from 'express-rate-limit';
+
 dotenv.config();
 
 const app = express();
@@ -57,7 +59,19 @@ app.patch('/players/:id', (req, res) => {
 
 });
 
-app.post('/admin/login', async (req, res) => {
+const loginRateLimiter = rateLimit({
+    windowMs: 5 * 60 * 1000, // (5 MINUTES)
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { status: 429, error: 'Too many login attempts. Try again later' },
+    keyGenerator: (req) =>
+        req.headers['x-forwarded-for'] || req.socket.remoteAddress || ''
+});
+
+app.post('/admin/login', loginRateLimiter, async (req, res) => {
+    console.log('Received login request from ' + req.ip);
+
     const { password } = req.body;
 
     const match = await bcrypt.compare(password, process.env.HASH_PASSWORD);

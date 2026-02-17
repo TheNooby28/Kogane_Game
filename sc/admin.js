@@ -1,5 +1,6 @@
-const loginBtn = document.getElementById('logInbtn');
+const loginBtn = document.getElementById('logInBtn');
 const passwordInput = document.getElementById('password');
+const confirmMsg = document.getElementById('confirm');
 
 function revealAdminPanel() {
     document.getElementById('admin_panel').hidden = false;
@@ -7,28 +8,33 @@ function revealAdminPanel() {
 }
 
 loginBtn.addEventListener('click', async () => {
-    const password = passwordInput.value;
+    try {
+        const password = passwordInput.value;
 
-    if (!password) {
-        alert('Please enter a password.');
-        return;
+        if (!password) {
+            confirmMsg.textContent = 'Please enter a password.';
+            return;
+        }
+
+        const res = await fetch('https://kogane-game.onrender.com/admin/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password })
+        });
+        
+        const data = await res.json();
+
+        if (res.status === 401) {
+            confirmMsg.textContent = 'Invalid password.';
+            return;
+        }
+
+        localStorage.setItem('token', data.token);
+        revealAdminPanel();
+    } catch (err) {
+        console.error('Error during login:', err);
+        confirmMsg.textContent = 'An error occurred. Please try again later.';
     }
-
-    const res = await fetch('https://kogane-game.onrender.com/admin/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ password })
-    });
-
-    if (!res.ok) {
-        alert('Login failed. Please check your password and try again.');
-        return;
-    }
-
-    const data = await res.json();
-
-    localStorage.setItem('token', data.token);
-    revealAdminPanel();
 });
