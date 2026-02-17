@@ -31,6 +31,11 @@ loginBtn.addEventListener('click', async () => {
             return;
         }
 
+        if (res.status == 429) {
+            confirmMsg.textContent = 'Too many attempts. Please try again later.';
+            return;
+        }
+
         localStorage.setItem('token', data.token);
         revealAdminPanel();
     } catch (err) {

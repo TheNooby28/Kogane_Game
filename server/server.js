@@ -17,6 +17,8 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+app.set('trust proxy', 1);
+
 app.get('/players', async (req, res) => {
     const { data, error } = await database
         .from('players')
@@ -65,12 +67,12 @@ const loginRateLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     message: { status: 429, error: 'Too many login attempts. Try again later' },
-    keyGenerator: (req) =>
-        req.headers['x-forwarded-for'] || req.socket.remoteAddress || ''
+    keyGenerator: (req) => req.ip,
 });
 
 app.post('/admin/login', loginRateLimiter, async (req, res) => {
-    console.log('Received login request from ' + req.ip);
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    console.log('Received login request from ip: ' + ip);
 
     const { password } = req.body;
 
