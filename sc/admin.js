@@ -1,3 +1,4 @@
+//------Login Section------
 const loginBtn = document.getElementById('logInBtn');
 const passwordInput = document.getElementById('password');
 const confirmMsg = document.getElementById('confirm');
@@ -67,3 +68,60 @@ loginBtn.addEventListener('click', async () => {
         confirmMsg.textContent = 'An error occurred. Please try again later.';
     }
 });
+//------Management Section------
+
+const playersContainer = document.getElementById('players');
+const playersBtn = document.getElementById('view_players');
+
+playersBtn.addEventListener('click', () => {
+    console.log('Pressed');
+    if (document.getElementById('plrDiv').hidden === true) {
+        fetchPlayers();
+        document.getElementById('plrDiv').hidden = false;
+        document.getElementById('rulesDiv').hidden = true;
+    } else {
+        document.getElementById('plrDiv').hidden = true;
+    }
+});
+
+async function fetchPlayers() {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const res = await fetch('https://kogane-game.onrender.com/players')
+        const data = await res.json();
+        playersContainer.innerHTML = '';
+        data.forEach(plr => {
+            const li = document.createElement('li');
+            li.textContent = `${plr.id} - ${plr.Fname} ${plr.Lname}`;
+            playersContainer.appendChild(li);
+            const delBtn = document.createElement('button');
+            delBtn.style.marginLeft = '10px';
+            delBtn.textContent = 'Delete';
+            delBtn.addEventListener('click', async () => {
+                if (!confirm(`Are you sure you want to delete player ${plr.Fname} ${plr.Lname}? This action cannot be undone.`)) return;
+                try {
+                    const delRes = await fetch('https://kogane-game.onrender.com/admin/delete_player', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ id: plr.id })
+                    });
+                    if (!delRes.ok) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.error('Error deleting player:', err);
+                    alert('An error occurred while deleting the player.');
+                }
+                fetchPlayers();
+            });
+            li.appendChild(delBtn);
+        });
+    } catch (err) {
+        console.error('Error fetching players:', err);
+    }
+}

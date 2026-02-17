@@ -13,12 +13,14 @@
             <h2>Sign In</h2>
             <input type="password" id="password" placeholder="Password"/>
             <button id="logInBtn">Sign In</button>
-            <label id="confirm"></label>
+            <label id="confirm" for="logInBtn"></label>
         </div>
         <div id="admin_panel" hidden>
             <h2>Welcome, Admin!</h2>
             <button id="view_players">View Players</button>
             <button id="manage_rules">Manage Rules</button>
+            <div id="plrDiv" hidden><ul id="players"></ul></div>
+            <div id="rulesDiv" hidden></div>
         </div>
         <script src="admin.js"></script>
     </body>

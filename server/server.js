@@ -53,14 +53,7 @@ app.get('/players/:id', async (req, res) => {
     }
     res.json(data);
 });
-
-app.post('/players', (req, res) => {
-
-});
-
-app.patch('/players/:id', (req, res) => {
-
-});
+//------ADMIN SECTION------
 
 const loginRateLimiter = rateLimit({
     windowMs: 5 * 60 * 1000, // (5 MINUTES)
@@ -71,7 +64,6 @@ const loginRateLimiter = rateLimit({
     keyGenerator: (req) => req.ip,
 });
 
-//------ADMIN SECTION------
 app.post('/admin/login', loginRateLimiter, async (req, res) => {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     console.log('Received login request from ip: ' + ip);
@@ -109,6 +101,41 @@ app.post('/admin/verify', (req, res) => {
         res.status(401).json({ valid: false, error: 'Invalid token' });
     }
 });
+
+function verifyAdmin(req, res, next) {
+    const auth = req.headers['authorization'];
+
+    if (!auth) {
+        return res.status(401).json({ error: 'No token provided' });
+    }
+
+    const token = auth.split(' ')[1];
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded.role !== 'admin') {
+            return res.status(403).json({ error: 'Forbidden' });
+        }
+        next();
+    } catch (err) {
+        return res.status(401).json({ error: 'Invalid token' });
+    }
+}
+
+app.post('/admin/delete_player', verifyAdmin, async (req, res) => {
+    const { playerId } = req.body;
+
+    const { data, error } = await database
+        .from('players')
+        .delete()
+        .eq('id', playerId);
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+//------NOTIFICATION SECTION (to be done)------
 
 //Idk
 app.listen(port, () => {
