@@ -133,6 +133,7 @@ app.post('/admin/delete_player', verifyAdmin, async (req, res) => {
     if (error) {
         return res.status(500).json({ error: error.message });
     }
+    return res.status(200).json({ message: 'Player deleted' });
 });
 
 //------NOTIFICATION SECTION (to be done)------

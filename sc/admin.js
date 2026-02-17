@@ -108,11 +108,13 @@ async function fetchPlayers() {
                             'Content-Type': 'application/json',
                             Authorization: `Bearer ${token}`
                         },
-                        body: JSON.stringify({ id: plr.id })
+                        body: JSON.stringify({ playerId: plr.id })
                     });
                     if (!delRes.ok) {
-                        window.location.reload();
+                        alert('An error occurred while deleting the player.');
+                        return console.error('Failed to delete player:', await delRes.json().error);
                     }
+                    alert(`Player ${plr.Fname} ${plr.Lname} has been deleted.`);
                 } catch (err) {
                     console.error('Error deleting player:', err);
                     alert('An error occurred while deleting the player.');
